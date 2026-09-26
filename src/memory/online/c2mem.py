@@ -224,15 +224,7 @@ def compute_c2_metrics(
                 * normalized_tree_distance(left_id, right_id, nodes)
             )
     tree_uncertainty = _clip(tree_uncertainty)
-    balance = _clip(commitment_lambda)
-    commitment = _clip(
-        memory_support
-        * (
-            1.0
-            - balance * retrieval_uncertainty
-            - (1.0 - balance) * tree_uncertainty
-        )
-    )
+    commitment = _clip(memory_support * (1.0 - tree_uncertainty))
 
     nodes_by_id = {
         str(node.get("node_id", "")).strip(): node
