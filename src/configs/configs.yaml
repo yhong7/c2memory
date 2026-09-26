@@ -1,0 +1,36 @@
+llm_config:
+  max_token: 4096
+  temperature: 0.2
+  num_comps: 1
+  reasoning_effort: low
+  thinking_enabled: false   # Optional provider-specific reasoning mode
+
+api_config:
+  openai_api_base:
+  openai_api_key_env: OPENAI_API_KEY
+  model_name:
+  rpm: 1000
+  rps: null
+  embedding_api_base:
+  embedding_api_key_env: EMBEDDING_API_KEY
+  embedding_model_name:
+
+api_profiles:
+  gpt-4o:
+    openai_api_base_env: OPENAI_API_BASE
+    openai_api_key_env: OPENAI_API_KEY
+    model_name: gpt-4o-2024-11-20
+  gpt-4o-mini:
+    openai_api_base_env: OPENAI_API_BASE
+    openai_api_key_env: OPENAI_API_KEY
+    model_name: gpt-4o-mini
+
+llm_debate:
+  agent_num: 3
+  round_num: 2
+  roles:
+    - solver
+    - critic
+    - fact_checker
+  use_majority: true
+  use_judge: true

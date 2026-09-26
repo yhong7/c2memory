@@ -1,0 +1,9 @@
+chromadb
+fastapi
+loguru
+numpy
+pyarrow
+pydantic
+requests
+sentence-transformers
+uvicorn

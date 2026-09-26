@@ -1,0 +1,64 @@
+name: c2mem
+
+services:
+  c2mem:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: c2mem:latest
+    environment:
+      PYTHONPATH: /app
+      PYTHONUNBUFFERED: "1"
+      WIKI_SERVICE_URL: ${WIKI_SERVICE_URL:-}
+      WIKI_SERVICE_TIMEOUT_SECONDS: ${WIKI_SERVICE_TIMEOUT_SECONDS:-120}
+      OPENAI_CHAT_MAX_RETRIES: ${OPENAI_CHAT_MAX_RETRIES:-3}
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./.db:/app/.db
+      - ./data:/app/data:ro
+      - ./logs:/app/logs
+      - ./result:/app/result
+      - ./temp:/app/temp
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - python
+      - -m
+      - src.main
+      - --dataset
+      - ${DATASET:-hotpotqa}
+      - --graph
+      - ${GRAPH:-dylan}
+      - --mas-memory-backend
+      - ${MAS_MEMORY_BACKEND:-c2mem}
+      - --mas-memory-path
+      - ${MAS_MEMORY_PATH:-.db/c2mem/default}
+      - --mas-memory-topk
+      - ${MAS_MEMORY_TOPK:-2}
+      - --num-tasks
+      - ${NUM_TASKS:-1}
+      - --max-steps
+      - ${MAX_STEPS:-8}
+      - --concurrency
+      - ${CONCURRENCY:-1}
+  shell:
+    profiles:
+      - dev
+    image: c2mem:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PYTHONPATH: /app
+      PYTHONUNBUFFERED: "1"
+      WIKI_SERVICE_URL: ${WIKI_SERVICE_URL:-}
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./.db:/app/.db
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./result:/app/result
+      - ./temp:/app/temp
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: ["sh"]

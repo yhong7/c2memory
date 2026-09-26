@@ -1,0 +1,2 @@
+"""Wikipedia retrieval service."""
+

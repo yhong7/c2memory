@@ -1,0 +1,10 @@
+openai
+langgraph
+langfuse
+loguru
+chromadb
+numpy
+PyYAML
+python-dotenv
+requests
+sentence-transformers

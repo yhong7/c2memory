@@ -1,0 +1,35 @@
+# Environment variables (contains API keys)
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Database and logs
+.db/
+logs/
+result/
+temp/
+tmp/
+
+# Downloaded benchmark corpora and Hugging Face cache
+data/fever/*.jsonl
+data/hotpotqa/hf-cache/
+data/wikipedia/*.tar.bz2
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.log
