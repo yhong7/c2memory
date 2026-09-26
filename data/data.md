@@ -1,4 +1,4 @@
 # Datasets
 
-Run `bash scripts/download_data.sh` from the repository root, then follow the
-main README to build the Wikipedia index.
+See the main README for dataset download links, local paths, and Wikipedia
+index preparation.

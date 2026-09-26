@@ -51,13 +51,22 @@ generated inside the separately deployed Wikipedia service.
 
 ### 🌳 Dataset Setup
 
-From the repository root, download and verify all required files with:
+Create the data directories:
 
 ```bash
-bash scripts/download_data.sh
+mkdir -p data/fever data/hotpotqa data/wikipedia
 ```
 
-The script creates the following directory structure:
+Download the files below and save them at the corresponding paths:
+
+- [FEVER paper development split](https://fever.ai/download/fever/paper_dev.jsonl)
+  → `data/fever/fever_dev.jsonl`
+- [HotpotQA distractor development split](https://curtis.ml.cmu.edu/datasets/hotpot/hotpot_dev_distractor_v1.json)
+  → `data/hotpotqa/hotpot_dev_distractor_v1.json`
+- [HotpotQA Wikipedia abstracts](https://nlp.stanford.edu/projects/hotpotqa/enwiki-20171001-pages-meta-current-withlinks-abstracts.tar.bz2)
+  → `data/wikipedia/enwiki-20171001-pages-meta-current-withlinks-abstracts.tar.bz2`
+
+The resulting directory structure is:
 
 ```text
 data/
@@ -69,10 +78,9 @@ data/
     └── enwiki-20171001-pages-meta-current-withlinks-abstracts.tar.bz2
 ```
 
-The downloads use the [FEVER release](https://fever.ai/download/fever/), the
-[HotpotQA release](https://hotpotqa.github.io/), and the
-[HotpotQA Wikipedia abstracts](https://hotpotqa.github.io/wiki-readme.html).
-The script verifies the published or release-matched checksums before returning.
+The Wikipedia archive has MD5 checksum
+`01edf64cd120ecc03a2745352779514c`. The ingest command reads the archive
+directly; do not unpack it.
 
 ### 📚 Wikipedia Retrieval Service
 
