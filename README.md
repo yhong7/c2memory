@@ -78,10 +78,6 @@ data/
     └── enwiki-20171001-pages-meta-current-withlinks-abstracts.tar.bz2
 ```
 
-The Wikipedia archive has MD5 checksum
-`01edf64cd120ecc03a2745352779514c`. The ingest command reads the archive
-directly; do not unpack it.
-
 ### 📚 Wikipedia Retrieval Service
 
 FEVER and HotpotQA access Wikipedia through the external `wikipedia-service`
