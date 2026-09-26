@@ -16,6 +16,7 @@ tmp/
 
 # Downloaded benchmark corpora and Hugging Face cache
 data/fever/*.jsonl
+data/hotpotqa/*.json*
 data/hotpotqa/hf-cache/
 data/wikipedia/*.tar.bz2
 

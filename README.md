@@ -51,8 +51,13 @@ generated inside the separately deployed Wikipedia service.
 
 ### 🌳 Dataset Setup
 
-Download the benchmark files from their original sources and place them in the
-following directory structure:
+From the repository root, download and verify all required files with:
+
+```bash
+bash scripts/download_data.sh
+```
+
+The script creates the following directory structure:
 
 ```text
 data/
@@ -64,50 +69,17 @@ data/
     └── enwiki-20171001-pages-meta-current-withlinks-abstracts.tar.bz2
 ```
 
-#### FEVER
-
-Obtain the standard FEVER paper development split independently, save it as
-`data/fever/fever_dev.jsonl`, and ensure it is JSONL containing at least `id`,
-`claim`, and `label`:
-
-```bash
-mkdir -p data/fever
-```
-
-#### HotpotQA
-
-Obtain the standard HotpotQA distractor development/validation split
-independently and place it at the exact local path below:
-
-```bash
-mkdir -p data/hotpotqa
-# Required local file: data/hotpotqa/hotpot_dev_distractor_v1.json
-```
-
-The loader reads the standard JSON array representation from that path. An
-explicit local path may also point to a JSONL file.
+The downloads use the [FEVER release](https://fever.ai/download/fever/), the
+[HotpotQA release](https://hotpotqa.github.io/), and the
+[HotpotQA Wikipedia abstracts](https://hotpotqa.github.io/wiki-readme.html).
+The script verifies the published or release-matched checksums before returning.
 
 ### 📚 Wikipedia Retrieval Service
 
 FEVER and HotpotQA access Wikipedia through the external `wikipedia-service`
 for the actions `Search[query]` and `Lookup[title]`.
 
-#### 1. Obtain the HotpotQA Wikipedia abstracts
-
-Obtain the standard HotpotQA Wikipedia abstracts snapshot independently and
-place it at the exact path below:
-
-```bash
-mkdir -p data/wikipedia
-```
-
-The archive is approximately 1.55 GB and has MD5
-`01edf64cd120ecc03a2745352779514c`. It can be checked with `md5` on macOS or
-`md5sum` on Linux. The required filename is
-`data/wikipedia/enwiki-20171001-pages-meta-current-withlinks-abstracts.tar.bz2`.
-The ingest command reads the archive directly; do not unpack it.
-
-#### 2. Build the Chroma index
+#### 1. Build the Chroma index
 
 Test the pipeline with a small batch:
 
@@ -129,7 +101,7 @@ The index is written to `.db/chroma/` as collection `wiki_abstracts`. Progress
 is persisted in `temp/wiki_abstracts_ingest_ckpt.json`, so rerunning the same
 command resumes an interrupted ingest.
 
-#### 3. Deploy the service
+#### 2. Deploy the service
 
 The deployable HTTP service is included under [`wikipedia/`](wikipedia/). It is
 kept separate from the experiment process so that the Chroma index stays loaded
