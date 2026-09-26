@@ -1,5 +1,9 @@
 # C2Mem: Commitment–Competence Calibration for Self-Evolving Multi-Agent Systems
 
+<p align="center">
+  <img src="assets/c2mem-overview.png" alt="Overview of C2Mem commitment-competence calibration" width="100%">
+</p>
+
 ## 👋 Introduction
 
 This repository implements **C2Mem**, the method introduced in *Beware of
