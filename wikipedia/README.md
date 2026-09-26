@@ -28,8 +28,7 @@ wikipedia/
 ├── scripts/
 │   └── build_chroma_from_snapshot.py
 ├── .env.example
-├── Dockerfile
-└── docker-compose.yml
+└── requirements.txt
 ```
 
 Index data is generated locally from the public Wikipedia snapshot and stored
@@ -90,57 +89,36 @@ WIKI_SERVICE_EMBED_MODE=local
 WIKI_SERVICE_LOCAL_EMBED_MODEL=/absolute/path/to/local-embedding-model
 ```
 
-Set the index mount and collection. When deploying from this directory inside
+Set the index path and collection. When starting from this directory inside
 the C2Mem repository, the defaults already select the index built above:
 
 ```dotenv
-WIKI_SERVICE_CHROMA_HOST_DIR=../.db/chroma
+WIKI_SERVICE_CHROMA_DIR=../.db/chroma
 WIKI_SERVICE_COLLECTION=wiki_abstracts
 ```
 
 For a standalone server, copy the Chroma directory to that server and change
-`WIKI_SERVICE_CHROMA_HOST_DIR` to its host path. Do not copy the index while it
-is being written. The service exposes no index mutation endpoint; do not run an
-ingest or rebuild command against the mounted deployment index.
+`WIKI_SERVICE_CHROMA_DIR` to its path. Do not copy the index while it is being
+written. The service exposes no index mutation endpoint; do not run an ingest
+or rebuild command against the active index.
 
-## 3. Deploy with Docker Compose
-
-From `wikipedia/`:
-
-```bash
-docker compose up -d --build
-docker compose ps
-docker compose logs -f wikipedia-service
-```
-
-The host port is controlled by `WIKI_SERVICE_PORT`. Allow access only from the
-machines that run C2Mem; use your normal firewall, private network, or reverse
-proxy policy for the deployment environment.
-
-To stop the service:
-
-```bash
-docker compose down
-```
-
-## 4. Deploy directly with Python
+## 3. Start the service
 
 ```bash
 cd wikipedia
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 set -a
 source .env
 set +a
 uvicorn app.main:app --host "$WIKI_SERVICE_HOST" --port "$WIKI_SERVICE_PORT"
 ```
 
-For direct deployment, `WIKI_SERVICE_CHROMA_DIR` is the path read by the Python
-process. Docker Compose instead mounts `WIKI_SERVICE_CHROMA_HOST_DIR` at the
-container's `/app/data/chroma`.
+`WIKI_SERVICE_CHROMA_DIR` is resolved by the Python process and should point to
+the index built in step 1.
 
-## 5. Verify the deployment
+## 4. Verify the deployment
 
 Set `WIKI_SERVICE_URL` in the C2Mem environment to the base URL assigned to
 your deployed service, then verify the contract:

@@ -126,15 +126,21 @@ EMBEDDING_API_BASE=your-embedding-base-url
 EMBEDDING_API_KEY=your-embedding-api-key
 EMBEDDING_MODEL_NAME=your-embedding-model
 
-WIKI_SERVICE_CHROMA_HOST_DIR=../.db/chroma
+WIKI_SERVICE_CHROMA_DIR=../.db/chroma
 WIKI_SERVICE_COLLECTION=wiki_abstracts
 ```
 
-Deploy it on the server and network of your choice:
+Create an isolated Python environment, install the service dependencies, and
+start the server:
 
 ```bash
-docker compose up -d --build
-docker compose ps
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+set -a
+source .env
+set +a
+uvicorn app.main:app --host "$WIKI_SERVICE_HOST" --port "$WIKI_SERVICE_PORT"
 ```
 
 The deployment must provide:
@@ -258,18 +264,6 @@ result/c2mem/
 The result JSONL contains the run configuration, one record per task, agent
 traces, evaluation metrics, token usage, and a final dataset summary. Temporary
 traces and ingest checkpoints remain under `temp/`.
-
-## 🐳 Docker
-
-```bash
-docker compose build
-DATASET=hotpotqa NUM_TASKS=5 GRAPH=dylan \
-MAS_MEMORY_PATH=.db/c2mem/hotpotqa-dylan \
-docker compose run --rm c2mem
-```
-
-See [`docs/deployment/docker.md`](docs/deployment/docker.md) for volume and
-service configuration.
 
 ## 🫡 Citation
 

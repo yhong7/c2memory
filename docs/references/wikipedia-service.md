@@ -64,15 +64,14 @@ index. The hosting stack and address are chosen by the user. The bundled
 implementation provides the API below and must point at a non-empty
 `wiki_abstracts` collection.
 
-For its Docker Compose deployment, configure:
+Configure the index path and collection:
 
 ```text
-WIKI_SERVICE_CHROMA_HOST_DIR=<host-path-to-chroma>
+WIKI_SERVICE_CHROMA_DIR=<path-to-chroma>
 WIKI_SERVICE_COLLECTION=wiki_abstracts
 ```
 
-For direct Python deployment, configure `WIKI_SERVICE_CHROMA_DIR` instead. See
-`wikipedia/README.md` for the complete startup sequence.
+See `wikipedia/README.md` for the complete startup sequence.
 
 ## Health Checks
 
